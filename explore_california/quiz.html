@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Family Adventures in California Quiz</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+  <!-- Quiz Container -->
+  <div class="container my-5 p-4 bg-white rounded shadow">
+    <h1 class="text-center text-warning mb-4">Family Adventures in California Quiz</h1>
+    <div id="quiz">
+      <!-- Quiz questions will be inserted here by JavaScript -->
+    </div>
+
+    <!-- Submit Button -->
+    <button id="submit" class="btn btn-primary mt-4 btn-sm">Submit Quiz</button>
+  </div>
+
+  <!-- Result Section -->
+  <div id="result" class="container text-center d-none mt-5 p-4 bg-light rounded shadow">
+    <h2 class="text-success">Your Score: <span id="score">0</span>/10</h2>
+    <p class="lead text-danger">Thank you for taking the quiz!</p>
+    <button class="btn btn-success" onclick="goBack()">Back to Home</button>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const quizData = [
+      { question: "What is the capital of California?", options: ["Los Angeles", "Sacramento", "San Francisco", "San Diego"], answer: "Sacramento" },
+      { question: "Which beach is in Southern California?", options: ["Malibu", "Santa Monica", "Venice Beach", "Laguna Beach"], answer: "Malibu" },
+      { question: "Which theme park is located in Anaheim?", options: ["Universal Studios", "Disneyland", "Six Flags", "SeaWorld"], answer: "Disneyland" },
+      { question: "What is the famous bridge in San Francisco?", options: ["Golden Gate Bridge", "Brooklyn Bridge", "London Bridge", "Sydney Harbour Bridge"], answer: "Golden Gate Bridge" },
+      { question: "Which park is home to the Giant Sequoia trees?", options: ["Yosemite", "Sequoia National Park", "Yellowstone", "Grand Canyon"], answer: "Sequoia National Park" },
+      { question: "Which city is famous for the Hollywood Sign?", options: ["Los Angeles", "San Diego", "San Francisco", "Santa Barbara"], answer: "Los Angeles" },
+      { question: "Which city is known for its cable cars?", options: ["San Francisco", "Los Angeles", "Santa Monica", "Palm Springs"], answer: "San Francisco" },
+      { question: "Which California city is known for its vineyards?", options: ["Napa Valley", "Los Angeles", "San Francisco", "Sacramento"], answer: "Napa Valley" },
+      { question: "Where can you see the most famous Hollywood stars?", options: ["Hollywood Walk of Fame", "Universal Studios", "Santa Monica Pier", "Venice Beach"], answer: "Hollywood Walk of Fame" },
+      { question: "Which national park is famous for its hot springs?", options: ["Death Valley", "Yosemite", "Yellowstone", "Big Sur"], answer: "Yellowstone" }
+    ];
+
+    const quizContainer = document.getElementById('quiz');
+    const resultContainer = document.getElementById('result');
+    const scoreContainer = document.getElementById('score');
+    const submitButton = document.getElementById('submit');
+
+    // Generate Quiz
+    function renderQuiz() {
+      quizData.forEach((data, index) => {
+        const questionElement = document.createElement('div');
+        questionElement.classList.add('mb-4');
+        questionElement.innerHTML = `
+          <h3 class="h5 text-primary">Q${index + 1}: ${data.question}</h3>
+          <ul class="list-unstyled">
+            ${data.options.map((option, i) => `
+              <li>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="q${index}" id="q${index}o${i}" value="${option}">
+                  <label class="form-check-label" for="q${index}o${i}">${option}</label>
+                </div>
+              </li>`).join('')}
+          </ul>
+        `;
+        quizContainer.appendChild(questionElement);
+      });
+    }
+
+    // Calculate Score
+    function calculateScore() {
+      let score = 0;
+      quizData.forEach((data, index) => {
+        const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selectedOption && selectedOption.value === data.answer) {
+          score++;
+        }
+      });
+      return score;
+    }
+
+    // Handle Submit
+    submitButton.addEventListener('click', () => {
+      const score = calculateScore();
+      scoreContainer.textContent = score;
+      resultContainer.classList.remove('d-none');
+      submitButton.disabled = true; // Prevent resubmission
+    });
+
+    // Back to Home Function
+    function goBack() {
+      window.location.href = "index.html";  // Replace 'index.html' with the actual homepage URL of your website
+    }
+
+    // Initialize Quiz
+    renderQuiz();
+  </script>
+
+</body>
+</html>
