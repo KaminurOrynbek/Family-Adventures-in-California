@@ -1,5 +1,3 @@
-// desktop version sliding menus
-
 //enable menu animation if the screen is set to desktop
 function enableMenus() {
 	//create shortcut for nav element
